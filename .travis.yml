@@ -1,0 +1,19 @@
+language: csharp
+mono: none
+os: linux
+dist: xenial
+dotnet: 2.1.4
+script:
+- dotnet build -c Release
+- dotnet pack -c Release
+deploy:
+  skip_cleanup: true
+  provider: script
+  script: dotnet nuget push ./bin/Release/RA_ParallelCore.*.nupkg -k $MYGET_API_KEY
+    -s https://www.myget.org/F/romanageev-ci/api/v2/package
+  on:
+    tags: true
+    condition: "$TRAVIS_TAG =~ -release$"
+env:
+  global:
+    secure: MkG/Ea9ZRwsWfumI8HkhQakCnpGIOyYyB34t93s1BGSu6BpdgpR9C2blPBhTADWFW4Z3iXMEqw4f6z0JIDjVBAd5U0dexdk1fi1weHKptLPQYo1WdgkiDmqTA0Yx1rrI5B0vbypdDSWGNZHmsMcppa7AJPgrr13VXlzxeojQEVOHv7R8mjObcSx9RItpUJ2QA9Hf5rVxA4CQaLLNCEpnOXLVdatG/XLaKYvPMCfmhOYRqSBh2O1EOmXl1Bh6dmQzg90LFRQxzGufeF2l8CMb4R9krB9G6frJ3Ge9ysq1kPdP2fHfNleGvC9kQ6uF0Gj2CNiD6faXgGni+WcfTKOpXzWouXv6Cvo41RPUAkgDX23C58TD/sb9koFhGOhJAUJah0HzPk109rD8HADYXSZy50VjrC1+Qp9jaEKCq+9fGTG1mATbsY9JO4jGZeM6IocGfs7W839wB47Ulxr3BM5PsSQjX2YT+7B9Z/GAUN7KCMke5QYpurmf6xfA8iRXaiCELOZsKsoabWQzQAk7gm46BP0h5KpYc3PowO+RxlBb3+31R3RGOtXYzVP1DOwSfyTkE6w+9AXNVSrWzrv3VviZMZBogTpc6Kihuvu4755zERfCwYQqRbflY/c6SZKgyXmwwL6+M/dg8hCUW31Zb56fi6kNgFtzp001qoF3RuDmHmE=
