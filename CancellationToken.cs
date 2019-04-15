@@ -1,5 +1,3 @@
-using System.Threading;
-
 namespace ParallelCore {
     public class CancellationToken {
         volatile bool isCancelled = false;
